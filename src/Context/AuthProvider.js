@@ -35,6 +35,7 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     const value = {
+        auth,
         user,
         createUser,
         signUser,
