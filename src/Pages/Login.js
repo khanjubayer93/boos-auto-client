@@ -19,9 +19,25 @@ const Login = () => {
         signUser(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(user);
-                navigate(from, { replace: true });
-                form.reset();
+
+                const currentUser = {
+                    email: user.email
+                }
+                console.log(currentUser);
+                fetch('http://localhost:5000/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        localStorage.setItem('boosToken', data.token)
+                        navigate(from, { replace: true });
+                        form.reset();
+                    })
             })
             .catch((error) => {
                 const errorCode = error.code;
